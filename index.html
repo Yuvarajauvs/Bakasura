@@ -3,9 +3,163 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>BAKASURA</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+      }
+
+      /* Navbar */
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: white;
+        padding: 10px 20px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 1000;
+      }
+
+      .navbar-left {
+        display: flex;
+        align-items: center;
+      }
+
+      .logo {
+        height: 50px;
+        width: 50px;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+
+      .navbar-center {
+        flex-grow: 1;
+        text-align: center;
+      }
+
+      .navbar-center h1 {
+        margin: 0;
+        font-size: 24px;
+        font-weight: bold;
+        letter-spacing: 2px;
+      }
+
+      .navbar-right {
+        display: flex;
+        align-items: center;
+        position: relative;
+      }
+
+      .menu-icon {
+        font-size: 28px;
+        margin-right: 50px;
+        cursor: pointer;
+        user-select: none;
+      }
+
+      /* Menu Dropdown */
+      .menu {
+        display: none;
+        position: absolute;
+        top: 52px;
+        right: 0;
+        background-color: white;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        width: 200px;
+        height: auto;
+        flex-direction: column;
+      }
+
+      .menu a {
+        padding: 10px 15px;
+        text-decoration: none;
+        line-height: 35px;
+        color: black;
+        border-bottom: 1px solid #eee;
+      }
+
+      .menu a:last-child {
+        border-bottom: none;
+      }
+
+      .menu a:hover {
+        background-color: #f0f0f0;
+      }
+
+      /* Content below navbar */
+      .home-container {
+        padding-top: 80px;
+        text-align: center;
+        background: url("food.jpg") center/cover no-repeat;
+        height: calc(100vh - 80px);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .home-heading {
+        color: white;
+        font-size: 32px;
+        font-family: monospace;
+        background: rgba(0, 0, 0, 0.5);
+        padding: 10px 20px;
+        border-radius: 10px;
+      }
+    </style>
   </head>
   <body>
-    <h2>Hello</h2>
+    <div class="navbar">
+      <div class="navbar-left">
+        <img
+          src="https://www.creativefabrica.com/wp-content/uploads/2020/09/21/Food-Logo-Graphics-5583096-1-580x386.jpg"
+          alt="Logo"
+          class="logo"
+        />
+      </div>
+      <div class="navbar-center">
+        <h1>BAKASURA</h1>
+      </div>
+      <div class="navbar-right">
+        <div class="menu-icon" onclick="toggleMenu()">&#9776;</div>
+        <div class="menu" id="menu">
+          <a href="#homeContainer">Home</a>
+
+          <a href="#foodItems">Food Items</a>
+          <a href="final.html">Sign Up</a>
+          <a href="#">Login</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="home-container" id="homeContainer">
+      <h2 class="home-heading">Welcome to Bakasura!</h2>
+    </div>
+
+    <script>
+      function toggleMenu() {
+        var menu = document.getElementById("menu");
+        if (menu.style.display === "flex") {
+          menu.style.display = "none";
+        } else {
+          menu.style.display = "flex";
+        }
+      }
+
+      // Optional: Click anywhere outside the menu to close it
+      window.onclick = function (event) {
+        var menu = document.getElementById("menu");
+        if (!event.target.matches(".menu-icon")) {
+          if (menu.style.display === "flex") {
+            menu.style.display = "none";
+          }
+        }
+      };
+    </script>
   </body>
 </html>
