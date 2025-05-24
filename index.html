@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Food Order - Taste the Difference</title>
+    <link rel="stylesheet" href="index.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&family=Roboto:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header class="navbar">
+      <a class="navbar-brand" href="#">
+        <img
+          class="logo"
+          src="https://www.creativefabrica.com/wp-content/uploads/2020/09/21/Food-Logo-Graphics-5583096-1-580x386.jpg"
+        />
+      </a>
+      <button class="menu-toggle" id="menuToggle">☰</button>
+      <nav class="nav-links" id="navLinks">
+        <a href="#home">Home</a>
+        <a href="#menu">Menu</a>
+        <a href="#cart">Cart</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero" id="home">
+        <h4>Welcome to FoodHub!</h4>
+        <p>Discover a world of exquisite tastes, delivered fresh to you.</p>
+      </section>
+
+      <section class="menu" id="menu">
+        <h2>Our Delectable Menu</h2>
+        <div class="menu-items" id="menuItems"></div>
+      </section>
+
+      <section class="cart" id="cart">
+        <h2>Your Order Details</h2>
+        <ul id="cartItems"></ul>
+        <p>Total: ₹<span id="cartTotal">0</span></p>
+        <button class="order-button" id="orderButton">Order Now</button>
+        <div class="order-message" id="orderMessage">
+          <div class="order-details" id="orderDetails"></div>
+          <p>
+            Thank you for your order! We are preparing your meal and it will be
+            delivered soon.
+          </p>
+        </div>
+      </section>
+
+      <section class="contact" id="contact">
+        <h2>Get in Touch</h2>
+        <p
+          style="
+            text-align: center;
+            font-size: 1.1rem;
+            color: var(--text-color-secondary);
+          "
+        >
+          Have a question or special request? Drop us a line!
+        </p>
+        <form id="contactForm">
+          <input type="text" id="name" placeholder="Your Name" required />
+          <input type="email" id="email" placeholder="Your Email" required />
+          <textarea id="message" placeholder="Your Message" required></textarea>
+          <button type="submit">Send Message</button>
+          <div class="confirmation" id="confirmationMessage">
+            Message sent successfully! We'll get back to you soon.
+          </div>
+        </form>
+      </section>
+    </main>
+
+    <footer>
+      <p>&copy; 2025 FoodHub. Taste the Difference.</p>
+    </footer>
+
+    <script>
+      document
+        .getElementById("menuToggle")
+        .addEventListener("click", function () {
+          document.getElementById("navLinks").classList.toggle("show");
+        });
+
+      const menuData = [
+        {
+          name: "Gourmet Burger",
+          price: 150,
+          img: "images/GourmetBurger.jpeg",
+        },
+        {
+          name: "Artisan Pizza",
+          price: 280,
+          img: "images/ArtisanPizza.jpeg",
+        },
+        {
+          name: "Creamy Pasta",
+          price: 200,
+          img: "images/CreamyPasta.jpeg",
+        },
+        {
+          name: "Fresh Salad",
+          price: 120,
+          img: "images/FreshSalad.jpeg",
+        },
+        {
+          name: "Crispy Fries",
+          price: 100,
+          img: "images/CrispyFries.jpeg",
+        },
+        {
+          name: "Deluxe Ice Cream",
+          price: 80,
+          img: "images/DeluxeIceCream.jpeg",
+        },
+        {
+          name: "Spicy Noodles",
+          price: 160,
+          img: "images/SpicyNoodles.jpeg",
+        },
+        {
+          name: "Fruit Smoothie",
+          price: 90,
+          img: "images/FruitSmoothie.jpeg",
+        },
+      ];
+
+      const menuContainer = document.getElementById("menuItems");
+      const cartItems = document.getElementById("cartItems");
+      const cartTotal = document.getElementById("cartTotal");
+      let total = 0;
+      const orderButton = document.getElementById("orderButton");
+      const orderMessage = document.getElementById("orderMessage");
+      const orderDetailsContainer = document.getElementById("orderDetails");
+
+      menuData.forEach((item) => {
+        const div = document.createElement("div");
+        div.className = "menu-item";
+        div.innerHTML = `
+            <img src="${item.img}" alt="${item.name}"/>
+            <h3>${item.name}</h3>
+            <p>₹${item.price}</p>
+            <button class="add-to-cart" data-name="${item.name}" data-price="${item.price}">Add to Cart</button>
+        `;
+        menuContainer.appendChild(div);
+      });
+
+      menuContainer.addEventListener("click", function (e) {
+        if (e.target.classList.contains("add-to-cart")) {
+          const itemName = e.target.dataset.name;
+          const itemPrice = parseInt(e.target.dataset.price);
+
+          const existingItem = Array.from(cartItems.children).find((li) =>
+            li.textContent.includes(itemName)
+          );
+
+          if (existingItem) {
+            const quantityMatch = existingItem.textContent.match(/x\s*(\d+)/);
+            let quantity = quantityMatch ? parseInt(quantityMatch[1]) : 1;
+            quantity++;
+            existingItem.innerHTML = `${itemName} - ₹${itemPrice} x ${quantity} <button class='remove-item' data-name='${itemName}' data-price='${itemPrice}'>Remove</button>`;
+          } else {
+            const li = document.createElement("li");
+            li.innerHTML = `${itemName} - ₹${itemPrice} x 1 <button class='remove-item' data-name='${itemName}' data-price='${itemPrice}'>Remove</button>`;
+            cartItems.appendChild(li);
+          }
+
+          total += itemPrice;
+          cartTotal.textContent = total;
+          orderButton.disabled = false;
+        }
+      });
+
+      cartItems.addEventListener("click", function (e) {
+        if (e.target.classList.contains("remove-item")) {
+          const li = e.target.closest("li");
+          const itemName = e.target.dataset.name;
+          const itemPrice = parseInt(e.target.dataset.price);
+          const quantityMatch = li.textContent.match(/x\s*(\d+)/);
+          const quantity = quantityMatch ? parseInt(quantityMatch[1]) : 1;
+
+          total -= itemPrice * quantity;
+          cartTotal.textContent = total;
+          cartItems.removeChild(li);
+
+          if (cartItems.children.length === 0) {
+            orderButton.disabled = true;
+          }
+        }
+      });
+
+      orderButton.addEventListener("click", () => {
+        if (cartItems.children.length > 0) {
+          orderDetailsContainer.innerHTML =
+            "<p><strong>Order Details:</strong></p>";
+          let orderDetails = "<ul>";
+          let subtotal = 0;
+          Array.from(cartItems.children).forEach((item) => {
+            const itemName = item.textContent.split(" - ")[0];
+            const priceMatch = item.textContent.match(/₹(\d+)/);
+            const quantityMatch = item.textContent.match(/x\s*(\d+)/);
+            const price = priceMatch ? parseInt(priceMatch[1]) : 0;
+            const quantity = quantityMatch ? parseInt(quantityMatch[1]) : 1;
+            const itemTotal = price * quantity;
+            subtotal += itemTotal;
+            orderDetails += `<li>${itemName} x ${quantity} - ₹${itemTotal}</li>`;
+          });
+          orderDetails += `</ul><p><strong>Subtotal:</strong> ₹${subtotal}</p>`;
+          orderDetailsContainer.innerHTML += orderDetails;
+          orderMessage.style.display = "flex";
+          cartItems.innerHTML = "";
+          cartTotal.textContent = 0;
+          total = 0;
+          orderButton.disabled = true;
+
+          setTimeout(() => {
+            orderMessage.style.display = "none";
+            orderDetailsContainer.innerHTML = "";
+          }, 50000);
+        }
+      });
+
+      document
+        .getElementById("contactForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          const name = document.getElementById("name").value.trim();
+          const email = document.getElementById("email").value.trim();
+          const message = document.getElementById("message").value.trim();
+
+          if (!name || !email || !message) {
+            alert("Please fill all fields correctly.");
+            return;
+          }
+          document.getElementById("confirmationMessage").style.display =
+            "block";
+          this.reset();
+          setTimeout(() => {
+            document.getElementById("confirmationMessage").style.display =
+              "none";
+          }, 3000);
+        });
+    </script>
+  </body>
+</html>
