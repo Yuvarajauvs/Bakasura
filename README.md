@@ -46,24 +46,6 @@ It is a **completely frontend project**. It doesn't have a backend (server or da
 
 ---
 
-## How to Set It Up (For Your Computer)
-
-If you want to have this website running on your machine:
-
-1.  **Acquire the project:**
-    ```bash
-git clone YOUR_REPO_URL_HERE # Substitute with the real URL of *this particular project's* GitHub repo
-    cd YOUR_PROJECT_FOLDER_NAME # Move into the project directory (e.g., 'FoodOrdering')
-    ```
-    *(If this particular project is a subdirectory within a bigger `Portfolio` repository, you would clone the `Portfolio` repository, and then move into its particular subdirectory once cloned.*)
-
-2.  **Open in Browser:**
-    * Just find the `index.html` file inside the project directory on your machine.
-    * **Double-click `index.html`** to view it in your default web browser.
-    * **No special setup or commands required** (such as `npm install` or `npm run dev`), since this is just plain HTML, CSS, and JavaScript.
-
----
-
 ## How to Put It Online (Deploy)
 
 This project is easily deployable online with **GitHub Pages** since it is comprised solely of static HTML, CSS, and JavaScript files.
